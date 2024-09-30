@@ -28,6 +28,8 @@ The GPT-2 model is further fine-tuned on `CounselChat` a public dataset speciali
 
 `CounselChat` stores questions related to mental health and well-being and answers to these questions which licensed professional therapists provided
 
+The `app.py` file uses further hyperparameters to control the chatbot's responses to make them more sophisticated and concise.
+
 The `fine_tuning_bats.py` file was used for the fine-tuning process
 
 hence ensuring professional-level responses from the model. 
