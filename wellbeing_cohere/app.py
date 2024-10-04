@@ -3,7 +3,7 @@ import cohere
 
 app = Flask("AI Chatbot")
 
-co = cohere.Client("ly6VpnzTXQvxe45hV0AOVCixO0L01DliJqKHGTAr")
+co = cohere.Client("API Hidden due")
 
 @app.route("/")
 def index():
