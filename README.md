@@ -28,8 +28,8 @@ The application utilizes a Flask-based backend to bridge the browser's MediaReco
 The local inference model was produced using the `fine_tuning_bats.py` pipeline.
 - **Base Architecture:** `gpt2` (124M parameters)
 - **Dataset:** `CounselChat` (High-quality Q&A paired with licensed therapist responses)
-- **Hyperparameters:** [Insert Batch Size, e.g., Batch Size 8], [Insert Epochs, e.g., 3 Epochs], Learning Rate: [e.g., 5e-5].
-- **Generation Tuning:** The inference script (`app.py`) utilizes temperature scaling (`T=[X]`), top-k filtering (`k=[X]`), and repetition penalties to constrain outputs to concise, professional advice.
+- **Hyperparameters:** Batch Size: 8, Epochs: 3
+- **Generation Tuning:** The inference script (`app.py`) utilizes repetition penalties to constrain outputs to concise, professional advice.
 
 ## Technical Challenges & Lessons Learned
 - **Audio Latency & Buffer Management:** Bridging the gap between a browser's asynchronous audio stream and a synchronous Python backend required optimizing the payload size and selecting a robust STT intermediate step to prevent blocking the main thread.
