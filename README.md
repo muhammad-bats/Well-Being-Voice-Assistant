@@ -12,7 +12,7 @@ An end-to-end web application delivering real-time, AI-driven well-being support
 The application utilizes a Flask-based backend to bridge the browser's MediaRecorder API with downstream NLP pipelines. 
 
 - **Frontend:** HTML/JS/CSS capturing microphone audio and handling asynchronous HTTP requests.
-- **Speech-to-Text (STT):** [Insert your specific STT library/API here, e.g., Whisper API / SpeechRecognition] processing raw audio buffers.
+- **Speech-to-Text (STT):** `annyang` processing raw audio buffers and mappoing onto JavaScript.
 - **Inference Engine Routing:**
   - **Pipeline A (Production/General):** Cohere API integration for low-latency, generalized zero-shot generation.
   - **Pipeline B (Specialized/Local):** A custom-tuned GPT-2 architecture operating locally via HuggingFace `transformers` and PyTorch.
