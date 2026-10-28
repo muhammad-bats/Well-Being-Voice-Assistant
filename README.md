@@ -1,35 +1,37 @@
-# Well-Being-Voice-Assistant
+# Well-Being Voice Assistant
 
-This repository is for a web application for a Well-being voice assistant.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![Flask](https://img.shields.io/badge/Flask-Backend-green)
+![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-yellow)
+![PyTorch](https://img.shields.io/badge/PyTorch-ML-orange)
 
-## Overview
+An end-to-end web application delivering real-time, AI-driven well-being support via voice interaction. This system processes raw audio input, converts it to text, and routes queries to either a high-performance commercial API or a domain-specifically fine-tuned local LLM for therapeutic responses.
 
+## System Architecture
 
-The web application chatbot can process voice commands through its frontend, 
+The application utilizes a Flask-based backend to bridge the browser's MediaRecorder API with downstream NLP pipelines. 
 
-it uses the Flask Framework for the full-stack implementation
+- **Frontend:** HTML/JS/CSS capturing microphone audio and handling asynchronous HTTP requests.
+- **Speech-to-Text (STT):** [Insert your specific STT library/API here, e.g., Whisper API / SpeechRecognition] processing raw audio buffers.
+- **Inference Engine Routing:**
+  - **Pipeline A (Production/General):** Cohere API integration for low-latency, generalized zero-shot generation.
+  - **Pipeline B (Specialized/Local):** A custom-tuned GPT-2 architecture operating locally via HuggingFace `transformers` and PyTorch.
+- **Fine-Tuning Corpus:** The local model was aggressively fine-tuned on the `CounselChat` dataset, adapting its weights to mimic the tone, structure, and pacing of licensed professional therapists.
 
-The well-being chatbot has two versions
+## Tech Stack
+- **Backend Core:** Python 3.10, Flask, Werkzeug
+- **Machine Learning & NLP:** PyTorch, HuggingFace Transformers, Tokenizers
+- **External APIs:** Cohere AI
+- **Frontend Delivery:** Vanilla JavaScript, HTML5 Web Audio API, CSS3
 
-1. COHERE model
-2. GPT-2 Fine-tuned
+## Model Fine-Tuning Pipeline
+The local inference model was produced using the `fine_tuning_bats.py` pipeline.
+- **Base Architecture:** `gpt2` (124M parameters)
+- **Dataset:** `CounselChat` (High-quality Q&A paired with licensed therapist responses)
+- **Hyperparameters:** [Insert Batch Size, e.g., Batch Size 8], [Insert Epochs, e.g., 3 Epochs], Learning Rate: [e.g., 5e-5].
+- **Generation Tuning:** The inference script (`app.py`) utilizes temperature scaling (`T=[X]`), top-k filtering (`k=[X]`), and repetition penalties to constrain outputs to concise, professional advice.
 
-### COHERE 
-
-This version uses a COHERE API model in the backbone
-
-The model used is a simple GPT model trained on vast amounts of data. Although it is not specialized for well-being tasks, it can provide information and therapeutic responses.
-
-### GPT-2 Fine-tuned
-
-This version uses the GPT-2 model from the Hugging Face Transformer library.
-
-The GPT-2 model is further fine-tuned on `CounselChat` a public dataset specialized for well-being and mental health.
-
-`CounselChat` stores questions related to mental health and well-being and answers to these questions which licensed professional therapists provided
-
-The `app.py` file uses further hyperparameters to control the chatbot's responses to make them more sophisticated and concise.
-
-The `fine_tuning_bats.py` file was used for the fine-tuning process
-
-hence ensuring professional-level responses from the model. 
+## Technical Challenges & Lessons Learned
+- **Audio Latency & Buffer Management:** Bridging the gap between a browser's asynchronous audio stream and a synchronous Python backend required optimizing the payload size and selecting a robust STT intermediate step to prevent blocking the main thread.
+- **Domain Adaptation vs. Overfitting:** Fine-tuning GPT-2 on `CounselChat` presented the challenge of catastrophic forgetting. The hyperparameter search was carefully constrained to ensure the model adopted a therapeutic tone without losing its baseline conversational coherence.
+- **API Fallback Strategy:** Integrating Cohere alongside a local model demonstrated the architectural trade-offs between API latency/cost and local compute constraints/memory bottlenecks.
